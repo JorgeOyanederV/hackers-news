@@ -5,7 +5,7 @@ import NewPostPage from "../components/News/New/NewPostPage";
 
 const AppRouter = () => {
   return (
-    <div>
+    <div className="w-screen h-screen bg-bgWhite">
       <Header />
       <BrowserRouter>
         <Routes>

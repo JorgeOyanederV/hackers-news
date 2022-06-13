@@ -3,7 +3,7 @@ import { FC } from "react";
 interface NewProps {}
 
 const New: FC<NewProps> = () => {
-  return <>NewRectangle</>;
+  return <div>NewRectangle</div>;
 };
 
 export default New;
