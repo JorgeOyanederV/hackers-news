@@ -1,9 +1,9 @@
 import { Dispatch } from "redux";
-import { RootState } from "../../store/store";
+import { RootStore } from "../../store/store";
 import { New, NewsDispatchTypes, NewsFail, NewsLoading, NewsSuccess, types } from "./NewsActionsTypes";
 
 // Set the initial state of the app
-export const GetInitialData = () => async (dispatch: Dispatch<NewsDispatchTypes>, getState: () => RootState) => {
+export const GetInitialData = () => (dispatch: Dispatch<NewsDispatchTypes>, getState: () => RootStore) => {
    // Get the selected news from local Store if was selected
    const activeNews = localStorage.getItem("activeNews");
 
@@ -11,8 +11,11 @@ export const GetInitialData = () => async (dispatch: Dispatch<NewsDispatchTypes>
    const sourceNews = localStorage.getItem("sourceNews");
 
    // if there was the type of news selected, set on the store
-   if (!!activeNews)
+   if (!!activeNews) {
       dispatch(setActiveNews(activeNews));
+   } else {
+      dispatch(setActiveNews('all'));
+   }
 
    // if there was the source of the news selected, set on the store
    if (!!sourceNews) {
@@ -25,7 +28,7 @@ export const GetInitialData = () => async (dispatch: Dispatch<NewsDispatchTypes>
    }
 };
 
-export const GetNews = (source: string, page: number = 0) => async (dispatch: Dispatch<NewsDispatchTypes>, getState: () => RootState) => {
+export const GetNews = (source: string, page: number = 0) => async (dispatch: Dispatch<NewsDispatchTypes>, getState: () => RootStore) => {
    try {
       dispatch(setLoadingNews());
 
@@ -64,15 +67,15 @@ const filterNullData: (news: New[]) => New[] = (news: New[]) => {
 export const setActiveNews = (activeNews: string) => {
    localStorage.setItem('activeNews', activeNews);
    return {
-      type: types.NEWS_ACTIVES,
-      payload: { activeNews }
+      type: types.NEWS_TYPES,
+      payload: activeNews
    }
 }
 export const setSourceNews = (sourceNews: string) => {
    localStorage.setItem('sourceNews', sourceNews);
    return {
       type: types.NEWS_SOURCE,
-      payload: { sourceNews }
+      payload: sourceNews
    }
 }
 

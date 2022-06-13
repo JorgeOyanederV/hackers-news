@@ -2,7 +2,7 @@ export const types = {
    NEWS_LOADING: "NEWS_LOADING",
    NEWS_FAIL: "NEWS_FAIL",
    NEWS_SUCCESS: "NEWS_SUCCESS",
-   NEWS_ACTIVES: "NEWS_ACTIVES",
+   NEWS_TYPES: "NEWS_TYPES",
    NEWS_SOURCE: "NEWS_SOURCE"
 }
 export interface New {
@@ -25,6 +25,12 @@ export interface NewsSuccess {
       news: New[]
    }
 }
+export interface NewsTypes {
+   type: typeof types.NEWS_TYPES,
+   payload: {
+      activeNews: string
+   }
+}
 
-export type NewsDispatchTypes = NewsLoading | NewsFail | NewsSuccess;
+export type NewsDispatchTypes = NewsTypes | NewsLoading | NewsFail | NewsSuccess;
 

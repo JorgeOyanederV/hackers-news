@@ -1,4 +1,4 @@
-import { New, types } from "../actions/NewsActions/NewsActionsTypes";
+import { New, NewsDispatchTypes, types } from "../actions/NewsActions/NewsActionsTypes";
 
 interface DefaultStateI {
    loadingNews: boolean,
@@ -15,12 +15,14 @@ const defaultState: DefaultStateI = {
    news: []
 };
 
-const newsReducer = (state: DefaultStateI = defaultState, action: any): DefaultStateI => {
+const newsReducer = (state: DefaultStateI = defaultState, action: NewsDispatchTypes): DefaultStateI => {
 
-   switch (action.types) {
-      case types:
-
-         return state;
+   switch (action.type) {
+      case types.NEWS_TYPES:
+         return {
+            ...state,
+            types: action.payload
+         };
 
       default:
          return state;
