@@ -3,13 +3,15 @@ import PaginateList from "./NewsList/PaginateList";
 import SourceNews from "./NewsSelectors/SourceNews";
 import TypeNews from "./NewsSelectors/TypeNews";
 import { useDispatch } from "react-redux";
-import { GetInitialData } from "../../actions/NewsActions/NewsActions";
+import { getInitialData } from "../../actions/NewsActions/NewsActions";
+import { Dispatch } from 'redux';
+import { NewsDispatchTypes } from "../../actions/NewsActions/NewsActionsTypes";
 
 const News: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<Dispatch<NewsDispatchTypes>>();
 
   useEffect(() => {
-    dispatch(GetInitialData());
+    dispatch(getInitialData());
   }, []);
 
   return (

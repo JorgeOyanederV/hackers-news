@@ -3,7 +3,7 @@ import { RootStore } from "../../store/store";
 import { New, NewsDispatchTypes, NewsFail, NewsLoading, NewsSuccess, types } from "./NewsActionsTypes";
 
 // Set the initial state of the app
-export const GetInitialData = () => (dispatch: Dispatch<NewsDispatchTypes>, getState: () => RootStore) => {
+export const getInitialData = () => (dispatch: Dispatch<NewsDispatchTypes>) => {
    // Get the selected news from local Store if was selected
    const activeNews = localStorage.getItem("activeNews");
 
@@ -24,11 +24,11 @@ export const GetInitialData = () => (dispatch: Dispatch<NewsDispatchTypes>, getS
 
    // if there was a source and the active news is all, then search
    if (!!sourceNews && sourceNews !== "DEFAULT" && activeNews !== 'faves') {
-      GetNews(sourceNews);
+      getNews(sourceNews);
    }
 };
 
-export const GetNews = (source: string, page: number = 0) => async (dispatch: Dispatch<NewsDispatchTypes>, getState: () => RootStore) => {
+export const getNews = (source: string, page: number = 0) => async (dispatch: Dispatch<NewsDispatchTypes>) => {
    try {
       dispatch(setLoadingNews());
 
@@ -68,14 +68,14 @@ export const setActiveNews = (activeNews: string) => {
    localStorage.setItem('activeNews', activeNews);
    return {
       type: types.NEWS_TYPES,
-      payload: activeNews
+      payload: { activeNews }
    }
 }
 export const setSourceNews = (sourceNews: string) => {
    localStorage.setItem('sourceNews', sourceNews);
    return {
       type: types.NEWS_SOURCE,
-      payload: sourceNews
+      payload: { sourceNews }
    }
 }
 
