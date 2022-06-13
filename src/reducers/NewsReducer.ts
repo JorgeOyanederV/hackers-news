@@ -49,12 +49,16 @@ const newsReducer = (state: DefaultStateI = defaultState, action: NewsDispatchTy
             source: action.payload.sourceNews,
             totalPages: 0
          };
-      case types.NEWS_FAVES:
+      case types.FAVE_ADD:
          return {
             ...state,
-            news: action.payload.news,
-            faves: action.payload.faves,
-         };
+            faves: [action.payload.fave, ...state.faves],
+         }
+      case types.FAVE_REMOVE:
+         return {
+            ...state,
+            faves: state.faves?.filter((item) => (item.objectID !== action.payload._new.objectID)),
+         }
       default:
          return state;
    }

@@ -29,21 +29,53 @@ export const getInitialData = () => (dispatch: Dispatch<NewsDispatchTypes>) => {
 
 };
 
-export const getNews = (source: string, page: number = 0) => async (dispatch: Dispatch<NewsDispatchTypes>) => {
+export const getNews = (source: string, page: number = 0) => async (dispatch: Dispatch<NewsDispatchTypes>, getState) => {
    try {
       dispatch(setLoadingNews());
 
       //Get the news
       const URL = `https://hn.algolia.com/api/v1/search_by_date?query=${source}&page=${page}`;
       const { hits: data, nbPages: totalPages, page: currentPage } = await fetch(URL).then(res => res.json());
-      let filteredData = await filterNullData(data);
+      let filteredData = filterNullData(data);
 
-      dispatch(setSuccessfullNews(filteredData, (totalPages - 1), currentPage));
+      let formatedData = formatedLikedData(filteredData, getState);
+
+      dispatch(setSuccessfullNews(formatedData, (totalPages - 1), currentPage));
    } catch (error) {
       dispatch(setFailNews());
    }
 };
 
+export const setRemoveFave = (_new: New) => {
+   return {
+      type: types.FAVE_REMOVE,
+      payload: { _new }
+   }
+};
+
+
+export const setFave = (fave: New) => {
+   return {
+      type: types.FAVE_ADD,
+      payload: { fave }
+   }
+}
+
+const formatedLikedData: (news: New[], getState) => NewsSuccess = (news: New[], getState) => {
+   let formatedData = news.map((_new) => ({ ..._new, isFaves: isFaves(_new.objectID, getState) }));
+   return formatedData;
+}
+const isFaves = (objectID: string, getState) => {
+   const { faves } = getState().news;
+   let isFave = false;
+   faves.forEach((fave: New) => {
+      if (fave.objectID === objectID) {
+         isFave = true;
+         return;
+      }
+   })
+   return isFave;
+}
 
 const setLoadingNews: () => NewsLoading = () => {
    return { type: types.NEWS_LOADING }

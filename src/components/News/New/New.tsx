@@ -1,16 +1,30 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import heart from "../../../assets/iconmonstr-favorite-3@2x.png";
 import clock from "../../../assets/iconmonstr-time-2.png";
 import heart_hole from "../../../assets/iconmonstr-favorite-2.png";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  setFave,
+  setRemoveFave,
+} from "../../../actions/NewsActions/NewsActions";
 
 export const New: FC = ({ _new }) => {
-  const { author, story_title, story_url, created_at, objectID, isFave } = _new;
+  const { author, story_title, story_url, created_at, objectID, isFaves } =
+    _new;
+
+  const [isFave, setIsFave] = useState(isFaves);
   const dispatch = useDispatch();
   const hoursTranscurred =
     new Date().getHours() - new Date(created_at).getHours();
 
-  const makeFave = () => {};
+  const makeFave = () => {
+    if (isFave) {
+      dispatch(setRemoveFave(_new));
+    } else {
+      dispatch(setFave(_new));
+    }
+    setIsFave(!isFave);
+  };
 
   return (
     <div className="w-full md:h-[90px] pl-[26px] flex border border-[#979797] rounded-[6px] ">
