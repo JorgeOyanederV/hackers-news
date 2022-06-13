@@ -1,15 +1,19 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Home from "../components/Home";
-import NewPost from "../components/News/New/NewPost";
+import Header from "../components/Header";
+import Home from "../components/HomePage";
+import NewPostPage from "../components/News/New/NewPostPage";
 
 const AppRouter = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/news/:id" element={<NewPost />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <Header />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/news/:id" element={<NewPostPage />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 };
 export default AppRouter;
