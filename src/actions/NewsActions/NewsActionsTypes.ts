@@ -6,7 +6,8 @@ export const types = {
    NEWS_SOURCE: "NEWS_SOURCE",
    NEWS_FAVES: "NEWS_FAVES",
    FAVE_ADD: "FAVE_ADD",
-   FAVE_REMOVE: "FAVE_REMOVE"
+   FAVE_REMOVE: "FAVE_REMOVE",
+   FAVE_INITIALIZE: "FAVE_INITIALIZE"
 }
 export interface New {
    objectID: string,
@@ -46,11 +47,17 @@ export interface AddFave {
 export interface RemoveFave {
    type: typeof types.FAVE_REMOVE,
    payload: {
-      _new: New
+      fave: New
+   }
+}
+export interface NewsInitialize {
+   type: typeof types.FAVE_INITIALIZE,
+   payload: {
+      faves: New[]
    }
 }
 
 
 
-export type NewsDispatchTypes = NewsTypes | NewsLoading | NewsFail | NewsSuccess | AddFave | RemoveFave;
+export type NewsDispatchTypes = NewsTypes | NewsLoading | NewsFail | NewsSuccess | AddFave | RemoveFave | NewsInitialize;
 

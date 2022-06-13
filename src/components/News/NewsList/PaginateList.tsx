@@ -44,6 +44,9 @@ const PaginateList: FC<PaginateListProps> = () => {
     // aqui debo cargar un esqueleto
     return <></>;
   }
+  if (news?.length === 0) {
+    return <></>;
+  }
 
   return (
     <div>

@@ -4,11 +4,19 @@ import { New, NewsDispatchTypes, NewsFail, NewsLoading, NewsSuccess, types } fro
 
 // Set the initial state of the app
 export const getInitialData = () => (dispatch: Dispatch<NewsDispatchTypes>) => {
+
+   // localStorage.setItem("faves", "[]");
    // Get the selected news from local Store if was selected
    const activeNews = localStorage.getItem("activeNews");
 
    // Get the fave news from the local store if there is
    const sourceNews = localStorage.getItem("sourceNews");
+
+   const favesNews = localStorage.getItem("faves");
+
+   if (!!favesNews) {
+      dispatch(setFavesNews(JSON.parse(favesNews)));
+   }
 
    // if there was the type of news selected, set on the store
    if (!!activeNews) {
@@ -20,13 +28,14 @@ export const getInitialData = () => (dispatch: Dispatch<NewsDispatchTypes>) => {
    // if there was the source of the news selected, set on the store
    if (!!sourceNews) {
       dispatch(setSourceNews(sourceNews));
+   } else {
+      localStorage.setItem("source", 'DEFAULT');
    }
 
    // if there was a source and the active news is all, then search
    if (!!sourceNews && sourceNews !== "DEFAULT" && activeNews !== 'faves') {
       dispatch(getNews(sourceNews));
    }
-
 };
 
 export const getNews = (source: string, page: number = 0) => async (dispatch: Dispatch<NewsDispatchTypes>, getState) => {
@@ -46,18 +55,34 @@ export const getNews = (source: string, page: number = 0) => async (dispatch: Di
    }
 };
 
-export const setRemoveFave = (_new: New) => {
+export const setRemoveFave = (fave: New) => {
+
    return {
       type: types.FAVE_REMOVE,
-      payload: { _new }
+      payload: { fave }
    }
 };
 
+export const setFaveNew = (fave: New) => async (dispatch: Dispatch<NewsDispatchTypes>, getState) => {
 
-export const setFave = (fave: New) => {
+   const { faves } = getState().news;
+   let _fave = { ...fave, isFaves: true };
+   let newFavs = [_fave, ...faves]
+   localStorage.setItem('faves', JSON.stringify(newFavs))
+   dispatch(setFave(newFavs))
+}
+
+const setFave = (newFavs: New[]) => {
    return {
       type: types.FAVE_ADD,
-      payload: { fave }
+      payload: { newFavs }
+   }
+}
+
+export const setFavesNews = (faves: New[]) => {
+   return {
+      type: types.FAVE_INITIALIZE,
+      payload: { faves }
    }
 }
 
