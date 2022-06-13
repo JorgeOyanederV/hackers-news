@@ -12,7 +12,8 @@ interface DefaultStateI {
 
 const defaultState: DefaultStateI = {
    loadingNews: false,
-   news: []
+   news: [],
+   faves: []
 };
 
 const newsReducer = (state: DefaultStateI = defaultState, action: NewsDispatchTypes): DefaultStateI => {
@@ -48,7 +49,12 @@ const newsReducer = (state: DefaultStateI = defaultState, action: NewsDispatchTy
             source: action.payload.sourceNews,
             totalPages: 0
          };
-
+      case types.NEWS_FAVES:
+         return {
+            ...state,
+            news: action.payload.news,
+            faves: action.payload.faves,
+         };
       default:
          return state;
    }
