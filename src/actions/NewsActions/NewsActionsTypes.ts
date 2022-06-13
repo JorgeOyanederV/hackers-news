@@ -22,7 +22,9 @@ export interface NewsFail {
 export interface NewsSuccess {
    type: typeof types.NEWS_SUCCESS,
    payload: {
-      news: New[]
+      news: New[],
+      totalPages: number,
+      currentPage: number
    }
 }
 export interface NewsTypes {

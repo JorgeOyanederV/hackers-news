@@ -1,44 +1,77 @@
-import { FC, useState } from "react";
-import { useDispatch } from "react-redux";
+import { FC, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getNews } from "../../../actions/NewsActions/NewsActions";
+import { New as NewI } from "../../../actions/NewsActions/NewsActionsTypes";
+import { RootStore } from "../../../store/store";
+import New from "../New/New";
 
 interface PaginateListProps {}
 
 const PaginateList: FC<PaginateListProps> = () => {
-  const [active, setActive] = useState("all");
+  const {
+    news,
+    faves,
+    totalPages = 0,
+    types,
+    source = "DEFAULT",
+    loadingNews,
+    page = 0,
+  } = useSelector((state: RootStore) => state.news);
   const dispatch = useDispatch();
+  const [buttonsPagination, setbuttonsPagination] = useState<number[]>([]);
 
-  const handleClickAll = () => {};
+  useEffect(() => {
+    let buttonsCalculate = [];
+    let pagesToEnd = totalPages - page;
+    let amountButtons = pagesToEnd < 5 ? pagesToEnd : 5;
+    for (let index = page; index < page + amountButtons; index++) {
+      buttonsCalculate.push(index);
+    }
+    setbuttonsPagination(buttonsCalculate);
+  }, [news]);
 
-  const handleClickFaves = () => {};
+  const changePage = ({ target }) => {
+    dispatch(getNews(source, target.value));
+  };
+  const onPrev = () => {
+    dispatch(getNews(source, page - 1));
+  };
+  const onNext = () => {
+    dispatch(getNews(source, page + 1));
+  };
+
+  if (loadingNews) {
+    // aqui debo cargar un esqueleto
+    return <></>;
+  }
 
   return (
-    <div className="pt-[70px] flex justify-center pb-[63px]">
-      <button
-        className={
-          "w-[98px] h-[31px] pt-[3px] pr-[39px] pl-[40px] border rounded-l-[2px] font-bold " +
-          `${
-            active === "all"
-              ? "text-[#1797ff]"
-              : "text-[#606060] border-[#d6d6d6]"
-          }`
-        }
-        onClick={handleClickAll}
-      >
-        <p className="text-sm">All</p>
-      </button>
-      <button
-        className={
-          "w-[98px] h-[31px] pt-[3px] pr-[16px] pl-[17px] border rounded-r-[2px] font-bold " +
-          `${
-            active === "faves"
-              ? "text-[#1797ff]"
-              : "text-[#606060] border-[#d6d6d6]"
-          }`
-        }
-        onClick={handleClickFaves}
-      >
-        <p className="text-sm">My faves</p>
-      </button>
+    <div>
+      {types === "all" && source !== "" && (
+        <>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-[30px]">
+            {news.map((activeNew: NewI) => {
+              return <New _new={activeNew} key={activeNew.objectID} />;
+            })}
+          </div>
+          <button onClick={onPrev} disabled={page == 0}>
+            {`<`}
+          </button>
+          {buttonsPagination.map((button: number) => {
+            return (
+              <button
+                value={button}
+                onClick={changePage}
+                key={button}
+                className={`bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded`}
+              >
+                {button + 1}
+              </button>
+            );
+          })}
+          <button onClick={onNext} disabled={page === totalPages}>{`>`}</button>
+        </>
+      )}
     </div>
   );
 };

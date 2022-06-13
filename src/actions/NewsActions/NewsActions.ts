@@ -24,8 +24,9 @@ export const getInitialData = () => (dispatch: Dispatch<NewsDispatchTypes>) => {
 
    // if there was a source and the active news is all, then search
    if (!!sourceNews && sourceNews !== "DEFAULT" && activeNews !== 'faves') {
-      getNews(sourceNews);
+      dispatch(getNews(sourceNews));
    }
+
 };
 
 export const getNews = (source: string, page: number = 0) => async (dispatch: Dispatch<NewsDispatchTypes>) => {
@@ -34,10 +35,10 @@ export const getNews = (source: string, page: number = 0) => async (dispatch: Di
 
       //Get the news
       const URL = `https://hn.algolia.com/api/v1/search_by_date?query=${source}&page=${page}`;
-      const { hits: data, nbPages } = await fetch(URL).then(res => res.json());
+      const { hits: data, nbPages: totalPages, page: currentPage } = await fetch(URL).then(res => res.json());
       let filteredData = await filterNullData(data);
 
-      dispatch(setSuccessfullNews(filteredData));
+      dispatch(setSuccessfullNews(filteredData, (totalPages - 1), currentPage));
    } catch (error) {
       dispatch(setFailNews());
    }
@@ -52,8 +53,11 @@ const setFailNews: () => NewsFail = () => {
    return { type: types.NEWS_FAIL }
 }
 
-const setSuccessfullNews: (news: New[]) => NewsSuccess = (news: New[]) => {
-   return { type: types.NEWS_SUCCESS, payload: { news } }
+const setSuccessfullNews: (news: New[], totalPages: number, currentPage: number) => NewsSuccess = (news: New[], totalPages: number, currentPage: number) => {
+   return {
+      type: types.NEWS_SUCCESS,
+      payload: { news, totalPages, currentPage }
+   }
 }
 
 // Filter the data with null values.

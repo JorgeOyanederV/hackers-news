@@ -18,7 +18,6 @@ const defaultState: DefaultStateI = {
 const newsReducer = (state: DefaultStateI = defaultState, action: NewsDispatchTypes): DefaultStateI => {
 
    switch (action.type) {
-
       case types.NEWS_LOADING:
          return {
             ...state,
@@ -33,24 +32,22 @@ const newsReducer = (state: DefaultStateI = defaultState, action: NewsDispatchTy
          return {
             ...state,
             loadingNews: false,
-            news: action.payload.news
+            news: action.payload.news,
+            totalPages: action.payload.totalPages,
+            page: action.payload.currentPage
          };
       case types.NEWS_TYPES:
          return {
             ...state,
-            types: action.payload.activeNews
+            types: action.payload.activeNews,
+            totalPages: 0
          };
       case types.NEWS_SOURCE:
          return {
             ...state,
-            source: action.payload.sourceNews
+            source: action.payload.sourceNews,
+            totalPages: 0
          };
-      case types.NEWS_SOURCE:
-         return {
-            ...state,
-            source: action.payload
-         };
-
 
       default:
          return state;

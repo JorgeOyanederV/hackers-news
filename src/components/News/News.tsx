@@ -4,7 +4,7 @@ import SourceNews from "./NewsSelectors/SourceNews";
 import TypeNews from "./NewsSelectors/TypeNews";
 import { useDispatch } from "react-redux";
 import { getInitialData } from "../../actions/NewsActions/NewsActions";
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 import { NewsDispatchTypes } from "../../actions/NewsActions/NewsActionsTypes";
 
 const News: FC = () => {
@@ -18,7 +18,7 @@ const News: FC = () => {
     <div>
       <TypeNews />
       <SourceNews />
-      {/* <PaginateList /> */}
+      <PaginateList />
     </div>
   );
 };
