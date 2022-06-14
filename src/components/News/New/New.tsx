@@ -3,29 +3,31 @@ import heart from "../../../assets/iconmonstr-favorite-3@2x.png";
 import clock from "../../../assets/iconmonstr-time-2.png";
 import heart_hole from "../../../assets/iconmonstr-favorite-2.png";
 import { useDispatch, useSelector } from "react-redux";
+import RootReducer from "../../../reducers/RootReducer";
 import {
   setFaveNew,
   startRemoveFave,
 } from "../../../actions/NewsActions/NewsActions";
+import { RootStore } from "../../../store/store";
 
 export const New: FC = ({ _new }) => {
   const { author, story_title, story_url, created_at, objectID, isFaves } =
     _new;
-
+  const { loadingButtons } = useSelector((state: RootStore) => state.news);
   const [isFave, setIsFave] = useState(isFaves);
   const dispatch = useDispatch();
   const hoursTranscurred =
     new Date().getHours() - new Date(created_at).getHours();
 
   const addToFaves = () => {
-    if (!isFave) {
+    if (!isFave && loadingButtons === false) {
       setIsFave(!isFave);
       dispatch(setFaveNew(_new));
     }
   };
 
   const removeFromFaves = () => {
-    if (isFave) {
+    if (isFave && loadingButtons === false) {
       setIsFave(!isFave);
       dispatch(startRemoveFave(_new));
     }

@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { RootStore } from "../../../store/store";
-import { setActiveNews } from "../../../actions/NewsActions/NewsActions";
+import { startActiveAllNews } from "../../../actions/NewsActions/NewsActions";
 
 interface TypeNewsProps {}
 
@@ -11,11 +11,11 @@ const TypeNews: FC<TypeNewsProps> = () => {
   const dispatch = useDispatch();
 
   const handleClickAll = () => {
-    dispatch(setActiveNews("all"));
+    dispatch(startActiveAllNews("all"));
   };
 
   const handleClickFaves = () => {
-    dispatch(setActiveNews("faves"));
+    dispatch(startActiveAllNews("faves"));
   };
 
   return (

@@ -10,7 +10,6 @@ interface PaginateListProps {}
 const PaginateList: FC<PaginateListProps> = () => {
   const {
     news,
-    faves,
     totalPages = 0,
     types,
     source = "DEFAULT",
@@ -40,17 +39,9 @@ const PaginateList: FC<PaginateListProps> = () => {
     dispatch(getNews(source, page + 1));
   };
 
-  if (loadingNews) {
-    // aqui debo cargar un esqueleto
-    return <></>;
-  }
-  if (news?.length === 0) {
-    return <></>;
-  }
-
   return (
     <div>
-      {types === "all" && source !== "" && (
+      {!loadingNews && types === "all" && source !== "" && (
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-[30px]">
             {news.map((activeNew: NewI) => {

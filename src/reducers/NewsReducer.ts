@@ -2,6 +2,7 @@ import { New, NewsDispatchTypes, types } from "../actions/NewsActions/NewsAction
 
 interface DefaultStateI {
    loadingNews: boolean,
+   loadingButtons: boolean,
    news: New[],
    faves?: New[],
    totalPages?: number,
@@ -12,6 +13,7 @@ interface DefaultStateI {
 
 const defaultState: DefaultStateI = {
    loadingNews: false,
+   loadingButtons: false,
    news: [],
    faves: []
 };
@@ -64,7 +66,11 @@ const newsReducer = (state: DefaultStateI = defaultState, action: NewsDispatchTy
             ...state,
             faves: action.payload.faves,
          }
-
+      case types.LOADING_BUTTON:
+         return {
+            ...state,
+            loadingButtons: action.payload
+         }
       default:
          return state;
    }

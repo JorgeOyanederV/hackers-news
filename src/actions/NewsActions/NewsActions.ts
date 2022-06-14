@@ -19,9 +19,9 @@ export const getInitialData = () => (dispatch: Dispatch<NewsDispatchTypes>) => {
 
    // if there was the type of news selected, set on the store
    if (!!activeNews) {
-      dispatch(setActiveNews(activeNews));
+      dispatch(setActiveTypes(activeNews));
    } else {
-      dispatch(setActiveNews('all'));
+      dispatch(setActiveTypes('all'));
    }
 
    // if there was the source of the news selected, set on the store
@@ -56,14 +56,16 @@ export const getNews = (source: string, page: number = 0) => async (dispatch: Di
 
 export const startRemoveFave = (fave: New) => async (dispatch: Dispatch<NewsDispatchTypes>, getState) => {
 
+   dispatch(setLoadingButton(true));
    const { faves } = getState().news;
    let newFaves = await faves.filter((item: New) => (item.objectID !== fave.objectID))
    localStorage.setItem('faves', JSON.stringify(newFaves));
    dispatch(setRemoveFave(newFaves));
+   dispatch(setLoadingButton(false));
 
 }
 
-export const setRemoveFave = (newFavs: New[]) => {
+const setRemoveFave = (newFavs: New[]) => {
    return {
       type: types.FAVE_REMOVE,
       payload: { newFavs }
@@ -86,6 +88,12 @@ const setFave = (newFavs: New[]) => {
    }
 }
 
+const setLoadingButton = (isLoading: boolean) => {
+   return {
+      type: types.LOADING_BUTTON,
+      payload: isLoading
+   }
+}
 export const setFavesNews = (faves: New[]) => {
    return {
       type: types.FAVE_INITIALIZE,
@@ -132,8 +140,17 @@ const filterNullData: (news: New[]) => New[] = (news: New[]) => {
    return filteredData;
 }
 
-export const setActiveNews = (activeNews: string) => {
+export const startActiveAllNews = (activeNews: string) => async (dispatch: Dispatch<NewsDispatchTypes>, getState) => {
+
+   const { source, page } = getState().news;
+   if (source !== 'DEFAULT') {
+      dispatch(getNews(source, page));
+   }
    localStorage.setItem('activeNews', activeNews);
+   dispatch(setActiveTypes(activeNews))
+
+}
+const setActiveTypes = (activeNews: string) => {
    return {
       type: types.NEWS_TYPES,
       payload: { activeNews }
