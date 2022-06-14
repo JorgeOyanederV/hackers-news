@@ -48,25 +48,35 @@ const PaginateList: FC<PaginateListProps> = () => {
               return <New _new={activeNew} key={activeNew.objectID} />;
             })}
           </div>
-          <button onClick={onPrev} disabled={page == 0}>
-            {`<`}
-          </button>
-          {buttonsPagination.map((button: number) => {
-            return (
-              <button
-                value={button}
-                onClick={changePage}
-                key={button}
-                className={`bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded`}
-              >
-                {button + 1}
-              </button>
-            );
-          })}
-          <button
-            onClick={onNext}
-            disabled={page === totalPages - 1}
-          >{`>`}</button>
+          <div className="w-full flex justify-center gap-x-[10px] p-[30px]">
+            <button
+              onClick={onPrev}
+              disabled={page == 0}
+              className="w-8 h-8 px-1 pb-[1px] border rounded-md border-buttonGray"
+            >
+              {`<`}
+            </button>
+            {buttonsPagination.map((button: number) => {
+              return (
+                <button
+                  value={button}
+                  onClick={changePage}
+                  key={button}
+                  className={
+                    "w-8 h-8 mx-2 px-1 pb-[1px] border rounded-md border-buttonGray " +
+                    `${page === button && "bg-[#1890ff] text-[#fff]"}`
+                  }
+                >
+                  {button + 1}
+                </button>
+              );
+            })}
+            <button
+              onClick={onNext}
+              disabled={page === totalPages - 1}
+              className="w-8 h-8 px-1 pb-[1px] border rounded-md border-buttonGray"
+            >{`>`}</button>
+          </div>
         </>
       )}
     </div>

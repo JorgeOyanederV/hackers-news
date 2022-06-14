@@ -7,7 +7,8 @@ module.exports = {
   theme: {
     colors: {
       blue: '#1797ff',
-      bgWhite: '#fcfcfc'
+      bgWhite: '#fcfcfc',
+      buttonGray: 'rgba(0, 0, 0, 0.15)'
     },
     extend: {
       boxShadow: {
