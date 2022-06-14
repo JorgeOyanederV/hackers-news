@@ -16,7 +16,8 @@ export interface New {
    story_title: string,
    story_url: string,
    created_at: string,
-   isFaves: boolean
+   isFaves: boolean,
+   comment_text: string;
 }
 
 export interface NewsLoading {

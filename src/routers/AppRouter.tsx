@@ -6,8 +6,8 @@ import NewPostPage from "../components/News/New/NewPostPage";
 const AppRouter = () => {
   return (
     <div className="w-screen h-screen bg-bgWhite">
-      <Header />
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/news/:id" element={<NewPostPage />} />
           <Route path="/" element={<HomePage />} />

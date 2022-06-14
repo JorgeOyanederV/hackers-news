@@ -63,7 +63,10 @@ const PaginateList: FC<PaginateListProps> = () => {
               </button>
             );
           })}
-          <button onClick={onNext} disabled={page === totalPages}>{`>`}</button>
+          <button
+            onClick={onNext}
+            disabled={page === totalPages - 1}
+          >{`>`}</button>
         </>
       )}
     </div>

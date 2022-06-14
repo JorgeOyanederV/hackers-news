@@ -4,7 +4,6 @@ import { New, NewsDispatchTypes, NewsFail, NewsLoading, NewsSuccess, types } fro
 // Set the initial state of the app
 export const getInitialData = () => (dispatch: Dispatch<NewsDispatchTypes>) => {
 
-   // localStorage.setItem("faves", "[]");
    // Get the selected news from local Store if was selected
    const activeNews = localStorage.getItem("activeNews");
 
@@ -48,7 +47,7 @@ export const getNews = (source: string, page: number = 0) => async (dispatch: Di
 
       let formatedData = formatedLikedData(filteredData, getState);
 
-      dispatch(setSuccessfullNews(formatedData, (totalPages - 1), currentPage));
+      dispatch(setSuccessfullNews(formatedData, (totalPages), currentPage));
    } catch (error) {
       dispatch(setFailNews());
    }
