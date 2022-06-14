@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Header from "../components/Header";
-import Home from "../components/HomePage";
+import HomePage from "../components/HomePage";
 import NewPostPage from "../components/News/New/NewPostPage";
 
 const AppRouter = () => {
@@ -10,7 +10,7 @@ const AppRouter = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/news/:id" element={<NewPostPage />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </div>

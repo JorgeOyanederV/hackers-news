@@ -47,7 +47,7 @@ export interface AddFave {
 export interface RemoveFave {
    type: typeof types.FAVE_REMOVE,
    payload: {
-      fave: New
+      newFavs: New[]
    }
 }
 export interface NewsInitialize {

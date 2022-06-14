@@ -5,7 +5,7 @@ import heart_hole from "../../../assets/iconmonstr-favorite-2.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setFaveNew,
-  setRemoveFave,
+  startRemoveFave,
 } from "../../../actions/NewsActions/NewsActions";
 
 export const New: FC = ({ _new }) => {
@@ -27,7 +27,7 @@ export const New: FC = ({ _new }) => {
   const removeFromFaves = () => {
     if (isFave) {
       setIsFave(!isFave);
-      dispatch(setRemoveFave(_new));
+      dispatch(startRemoveFave(_new));
     }
   };
   return (

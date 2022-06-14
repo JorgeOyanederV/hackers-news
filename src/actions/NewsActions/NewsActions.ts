@@ -1,5 +1,4 @@
 import { Dispatch } from "redux";
-import { RootStore } from "../../store/store";
 import { New, NewsDispatchTypes, NewsFail, NewsLoading, NewsSuccess, types } from "./NewsActionsTypes";
 
 // Set the initial state of the app
@@ -55,11 +54,19 @@ export const getNews = (source: string, page: number = 0) => async (dispatch: Di
    }
 };
 
-export const setRemoveFave = (fave: New) => {
+export const startRemoveFave = (fave: New) => async (dispatch: Dispatch<NewsDispatchTypes>, getState) => {
 
+   const { faves } = getState().news;
+   let newFaves = await faves.filter((item: New) => (item.objectID !== fave.objectID))
+   localStorage.setItem('faves', JSON.stringify(newFaves));
+   dispatch(setRemoveFave(newFaves));
+
+}
+
+export const setRemoveFave = (newFavs: New[]) => {
    return {
       type: types.FAVE_REMOVE,
-      payload: { fave }
+      payload: { newFavs }
    }
 };
 
