@@ -9,7 +9,7 @@ const Header: FC<HeaderProps> = () => {
 
   return (
     <div className="w-full shadow-title py-[44px] bg-title">
-      <div className="w-full container px-[150px] mx-auto">
+      <div className="w-full container px-16 sm:px-[150px] mx-auto">
         <img
           src={logo}
           className="w-[208px] y-[28px]"

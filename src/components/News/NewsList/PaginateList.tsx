@@ -48,7 +48,8 @@ const PaginateList: FC<PaginateListProps> = () => {
               return <New _new={activeNew} key={activeNew.objectID} />;
             })}
           </div>
-          <div className="w-full flex justify-center gap-x-[10px] p-[30px]">
+
+          <div className="w-full flex justify-center gap-x-1 md:gap-x-[10px] p-[30px]">
             <button
               onClick={onPrev}
               disabled={page == 0}
@@ -63,7 +64,7 @@ const PaginateList: FC<PaginateListProps> = () => {
                   onClick={changePage}
                   key={button}
                   className={
-                    "w-8 h-8 mx-2 px-1 pb-[1px] border rounded-md border-buttonGray " +
+                    "w-8 h-8 px-1 pb-[1px] border rounded-md border-buttonGray " +
                     `${page === button && "bg-[#1890ff] text-[#fff]"}`
                   }
                 >
